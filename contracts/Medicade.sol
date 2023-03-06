@@ -4,27 +4,29 @@ contract Medicade {
 
     struct Record{
         string  name;
-        uint age;
+        string gender;
         string  condition;
+        uint age;
         address owner;
     }
 
     //Record[] public records;
     mapping(address => Record) public records;
 
-    function createMedRecord(string memory _name, uint _age, string memory _condition) public{
+    function createMedRecord(string memory _name, string memory _gender,  uint _age, string memory _condition) public{
         require (_age >= 18, "You are not old enough");
         Record memory record;
         record.name = _name;
+        record.gender = _gender;
         record.age = _age;
         record.condition = _condition;
         record.owner = msg.sender;
         records[msg.sender]= record;
     }
 
-    function getMedRecords(address _user) public view returns(string memory name, uint age, string memory condition){
+    function getEntireMedRecords(address _user) public view returns(string memory name, uint age, string memory condition, string memory _gender){
        Record memory record = records[_user];
-       return(record.name, record.age, record.condition);
+       return(record.name, record.age, record.condition, record.gender );
     }
 
     function getCondition(address _user) external view returns(string memory){
